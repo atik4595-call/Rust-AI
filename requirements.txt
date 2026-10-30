@@ -1,0 +1,7 @@
+numpy<2
+torch
+torchaudio
+demucs
+gradio
+ffmpeg-python
+soundfile
