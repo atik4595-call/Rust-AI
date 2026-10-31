@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+import sys
 
 BASE_DIR = "output_dubbing"
 MUSIC_DIR = os.path.join(BASE_DIR, "Music")
@@ -62,10 +63,31 @@ def run_demucs_pipeline(video_path):
     print("🎉 মিউজিক এবং ভোকাল সফলভাবে সঠিক ফোল্ডারে সেভ হয়েছে!")
     print(f"- Music Path: {final_music_path}")
     print(f"- Vocal Path: {final_vocal_path}")
+
+    # ==========================================
+    # অটো Step 02 (Whisper & Diarization) কল করা
+    # ==========================================
+    print("\n" + "=" * 50)
+    print("🚀 Step 01 সফলভাবে শেষ! এখন স্বয়ংক্রিয়ভাবে Step 02 শুরু হচ্ছে...")
+    print("=" * 50)
+
+    # সরাসরি tools ফোল্ডারের ভেতরের step02_whisper.py ফাইলের পাথ
+    step02_script_path = os.path.join("tools", "step02_whisper.py")
+
+    if os.path.exists(step02_script_path):
+        # সাবপ্রসেস দিয়ে step02_whisper.py রান করা
+        result = subprocess.run([sys.executable, step02_script_path])
+        
+        if result.returncode == 0:
+            print("\n🎉 আলহামদুলিল্লাহ! Step 01 এবং Step 02 উভয় পাইপলাইন সফলভাবে শেষ হয়েছে!")
+        else:
+            print("\n❌ Step 02 রান করার সময় কোনো ত্রুটি হয়েছে।")
+    else:
+        print(f"\n❌ এরর: Step 02 ফাইলটি নির্দিষ্ট পথে পাওয়া যায়নি: {step02_script_path}")
     
     return final_music_path, final_vocal_path
 
 if __name__ == "__main__":
-    # টেস্ট করার জন্য এখানে ভিডিও ফাইলের পাথ দিতে পারো
+    # টেস্ট করার জন্য এখানে আপনার ভিডিও ফাইলের পাথ দিয়ে রান করতে পারেন
     # run_demucs_pipeline("your_video.mp4")
     pass
