@@ -1,0 +1,6 @@
+openai-whisper
+diarize==0.1.2
+soundfile
+librosa
+torch
+torchaudio
